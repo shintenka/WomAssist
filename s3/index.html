@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 文字エンコードをUTF-8に指定 -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- レンダリングを最新に指定 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!-- 拡大を禁止 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>WomAssit</title>
+
+    <!-- Semantic UI を読み込む -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+    <!-- js を読み込む -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="js/jquery.circliful.min.js"></script>
+    <script src="https://unpkg.com/vue@2.3.3/dist/vue.js"></script>
+
+    <script src="../dist/semantic.min.js"></script>
+    <script src="./ccv/js/face.js"></script>
+    <script src="./ccv/js/ccv.js"></script>
+    <script type="text/javascript" src="./js/face_detection.js"></script>
+    <script type="text/javascript" src="./js/video.js"></script>
+
+
+    <!-- 共通のCSSファイルを読み込む -->
+
+    <link href="common/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Bitter|Sedgwick+Ave+Display" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="common/clock.css">
+
+
+
+</head>
+
+<body>
+    <video autoplay="autoplay" loop style="top: -150px; width=" 70%; "" id="intVideo" poster="./images/walking.png">
+        <source src="./images/test.webm" type="video/webm">
+            <source src="./images/test.mp4" type="video/mp4">
+    </video>
+    <video style="display:none" id="myVideo" autoplay="1"></video>
+    <canvas style="display:none" id="img_canvas" width="1280" height="800"></canvas>
+    <!-- Vue.jsで読み込む -->
+    <div id="app">
+        <!--menu!-->
+        <common-menu current="home"></common-menu>
+        <!-- 基本的なコンテンツはここに記載する -->
+
+
+        <!--walking-->
+        <div class="walking">
+            <form>
+                <!--Responsive更新！-->
+                <div class="ui stackable very relaxed centered grid container" style="position:relative;padding: 0px;">
+                    <div class="">
+                        <div class="ui input">
+                            <input type="text" placeholder="自宅の最寄り駅">
+                        </div>
+                    </div>
+                    <div id="Toid" class="ui horizontal divider" style="color: #fff">TO</div>
+                    <div class="">
+                        <div class="ui input">
+                            <input type="text" placeholder="会社の最寄り駅">
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="ui input">
+                        <input type="text" placeholder="自宅の最寄り駅">
+                        <label style="color: #fff">から</label>
+                        <input type="text" placeholder="会社の最寄り駅">
+                        <label style="color: #fff">まで</label>
+                        <button class="ui button" type="submit">Submit</button>
+                    </div>-->
+            </form>
+            <div class="ui transparent input">
+                <input placeholder="XX駅" style="width:45px;">
+                <h1 class="ui center aligned header" style="color: #fff;">から降りて、10分ウォーキングしましょう！</h1>
+            </div>
+        </div>
+
+
+        <!--aircon-->
+        <div class="aircon" id="CARADA">
+            <h3 class="ui horizontal divider header">オフィス空調温度設定</h3>
+            <div class="divs">
+                <div class="imgs"><img src="./images/aircon.png" style="width: 100px" alt="aircon">
+                </div>
+                <div class="infos">設定温度</div>
+                <div class="ui transparent input">
+                    <div id="air_temp" type="text" placeholder="26" style="font-size: 200%;width: 45px;"></div>
+                </div>
+                <button class="hot" type="button" value="1" v-on:click="airconup"><img src="./images/hot.png" style="width: 60px;">
+                </button>
+                <button class="cold" type="button" value="-1" v-on:click="aircondown"><img src="./images/cold.png" style="width: 60px;">
+                </button>
+            </div>
+        </div>
+
+
+        <!--CARADA-->
+
+        <h3 class="ui horizontal divider header">長時間作業姿勢管理</h3>
+        <div id="carada">
+
+            <div class="carada">
+                <div id="myStat2" data-dimension="150" data-text="73.5%" data-info="不良姿勢" data-width="4" data-fontsize="25" data-percent="73.5" data-fgcolor="#ff5858" data-bgcolor="#eee"></div>
+                <div>
+                    <h5>姿勢分析</h5>
+                    <p>机に向かって猫背のように前かがみになる。長時間立っているのが苦手。前屈が硬い。慢性的な腰痛、下半身のしびれ・冷えのある方が多い。</p>
+
+                </div>
+            </div>
+            <div class="carada">
+                <!--timer-->
+                <div class="timer">
+                    <div class="clock">
+                        <h4 id="show-title">作業</h4>
+                        <h3 id="show-time">25:00</h3>
+
+                        <span id="per"></span>
+                    </div>
+                    <div id="sum_time"></div>
+                    <div class="control">
+                        <div class="break">
+                            <p>休憩時間</p>
+                            <i class="fa fa-minus-square-o" aria-hidden="true" id="break-minus"></i>
+                            <span id="break-length">5</span>
+                            <i class="fa fa-plus-square-o" aria-hidden="true" id="break-plus"></i>
+                        </div>
+                        <div class="length">
+                            <p>作業時間</p>
+                            <i class="fa fa-minus-square-o" aria-hidden="true" id="session-minus"></i>
+                            <span id="session-length">25</span>
+                            <i class="fa fa-plus-square-o" aria-hidden="true" id="session-plus"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!--Sound-->
+                <audio id="bgMusic1">
+                    <source src="./images/sound1.mp3" type="audio/mp3">
+                </audio>
+
+                <audio id="bgMusic2">
+                    <source src="./images/sound2.mp3" type="audio/mp3">
+                </audio>
+
+            </div>
+            <div class="carada">
+                <h5>腰痛にならない３つの姿勢</h5>
+                <p>- 両足をしっかりと地面につけて座る</p>
+                <p>- お腹を凹ませて骨盤を立てるようにして座る</p>
+                <p>- あごを引いて猫背にならないようにする</p>
+                <h5>姿勢改善による効果</h5>
+                <p>- 痛みの緩和</p>
+                <p>- 疲労しにくい身体をつくる</p>
+                <p>- 仕事の作業効率の向上</p>
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <!--bottom-->
+    <div class="bottom">
+        <br>
+        <h3 class="ui horizontal divider header">問い合わせ</h3>
+        <img src="images/bottom.png" style="width: 100%;">
+    </div>
+
+
+    <!-- APIのURLを読み込むJavaScriptファイル -->
+    <script src="./common/config.js" charset="utf-8"></script>
+    <script src="./common/menu.js" charset="utf-8"></script>
+    <!-- 各ページで使うJavaScriptファイルはこの行より下で読み込む -->
+
+    <script src="./js/working_time.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/clock.js"></script>
+    <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script> -->
+    <!--統計データのJavaScript -->
+    <script>
+        $(document).ready(function() {
+            $('#myStat2').circliful();
+        });
+    </script>
+
+
+</body>
+
+
+</html>

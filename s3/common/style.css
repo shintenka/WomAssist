@@ -1,0 +1,138 @@
+/* 全体で共通のCSSはこのファイルに記述する */
+
+body {
+  background-color: #fff;
+  text-align:center;
+}
+.main.container {
+  margin-top: 100px;
+}
+
+.segment_login {
+  width: 250px;
+  margin:0 auto;
+}
+.img-responsive {
+  display: block;
+  height: auto;
+  max-width: 50%;
+  margin:0 auto;
+}
+.responsive {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  margin:0 auto;
+}
+
+.form{
+  margin-top: 100px;
+}
+.aircon{
+  margin-top: 150px;
+}
+.title{
+  margin-top: 50px;
+  color: #9D9D9D;
+}
+
+.divs .imgs{
+   display: inline-block;
+   vertical-align: middle;
+}
+.divs .infos{
+    display: inline-block;
+}
+.divs{
+  margin-top: 60px;
+  margin-bottom: 80px;
+}
+
+.walking{
+  background-image: url(../images/walking.png) no-repeat;
+  margin: 150px 50px 0px 50px;
+  height: 400PX;
+
+}
+video#intVideo{
+  position: absolute;
+  right: 0;
+  min-height: 100%;min-width: 100%;
+  width: auto;
+  z-index: -100;
+  background: url(walking.png) no-repeat;
+  background-size: cover;
+  -webkit-filter:grayscale(70%);
+  overflow-x:hidden;overflow-y:auto;
+}
+
+.hot{
+  width: 60px;height: 50px;
+  border:none;
+  background-size:100% 100%;
+  background-color: white;
+}
+.cold{
+  width: 60px;height: 50px;
+  border:none;
+  background-size:100% 100%;
+  background-color: white;
+}
+
+.carada{
+  width: 350px;
+  height: 300px;
+  display: inline-block;
+  vertical-align:text-top;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 20px;
+  text-align:center;
+}
+
+#carada{
+  background-color: #FAFAFA;
+  width: 100%;
+  margin: 50px 0px 50px 0px;
+  padding: 0px;
+  float: left;
+}
+
+#myStat2{
+  font-family: arial,verdana, sans-serif;
+  font-size: 8px;
+  margin:0 auto;
+}
+
+.circliful {
+    position: relative;
+}
+
+.circle-text, .circle-info, .circle-text-half, .circle-info-half {
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    display: inline-block;
+}
+
+.circle-info, .circle-info-half {
+  color: #000;
+}
+
+.circliful .fa {
+  margin: -10px 3px 0 3px;
+  position: relative;
+  bottom: 4px;
+}
+.data-text{
+  text-align: center;
+}
+
+.bottom{
+  margin-top: 30px;
+}
+
+#Toid{
+  margin-left: auto;
+  margin-right: auto;
+}

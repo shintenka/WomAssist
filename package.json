@@ -1,0 +1,14 @@
+{
+  "name": "template-project",
+  "version": "1.0.0",
+  "description": "Template project for 2017 summer internship",
+  "devDependencies": {
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-awspublish": "^3.3.0",
+    "gulp-install": "^1.1.0",
+    "gulp-zip": "^4.0.0",
+    "node-aws-lambda": "^0.1.1",
+    "run-sequence": "^1.2.2"
+  }
+}
